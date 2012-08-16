@@ -1,10 +1,10 @@
 {
   "name": "encoding",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Remove accents from international characters",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nodeunit test.js"
   },
   "repository": "git://github.com/andris9/encoding.git",
   "author": "Andris Reinman",
@@ -14,5 +14,8 @@
   },
   "optionalDependencies":{
     "iconv": "*"
+  },
+  "devDependencies":{
+    "nodeunit": "*"
   }
 }

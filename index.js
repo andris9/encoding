@@ -7,7 +7,16 @@ try{
 // Expose to the world
 module.exports.convert = convert;
 
-function convert(str, to, from){
+/**
+ * Convert encoding of an UTF-8 string or a buffer
+ *
+ * @param {String|Buffer} str String to be converted
+ * @param {String} to Encoding to be converted to
+ * @param {String} [from="UTF-8"] Encoding to be converted from
+ * @param {Boolean} useLite If set to ture, force to use iconvLite
+ * @return {Buffer} Encoded string
+ */
+function convert(str, to, from, useLite){
     from = checkEncoding(from || "UTF-8");
     to = checkEncoding(to || "UTF-8");
     str = str || "";
@@ -21,11 +30,9 @@ function convert(str, to, from){
     if(from == to){
         result = str;
     }else{
-        if(Iconv){
-            console.log(1);
+        if(Iconv && !useLite){
             result = convertIconv(str, to, from);
         }else{
-            console.log(2);
             result = convertIconvLite(str, to, from);
         }
     }
@@ -37,6 +44,14 @@ function convert(str, to, from){
     return result;
 }
 
+/**
+ * Convert encoding of astring with node-iconv (if available)
+ *
+ * @param {String|Buffer} str String to be converted
+ * @param {String} to Encoding to be converted to
+ * @param {String} [from="UTF-8"] Encoding to be converted from
+ * @return {Buffer} Encoded string
+ */
 function convertIconv(str, to, from){
     var response;
     iconv = new Iconv(from, to + "//TRANSLIT//IGNORE");
@@ -44,6 +59,14 @@ function convertIconv(str, to, from){
     return response.slice(0, response.length);
 }
 
+/**
+ * Convert encoding of astring with iconv-lite (if node-iconv is not available)
+ *
+ * @param {String|Buffer} str String to be converted
+ * @param {String} to Encoding to be converted to
+ * @param {String} [from="UTF-8"] Encoding to be converted from
+ * @return {Buffer} Encoded string
+ */
 function convertIconvLite(str, to, from){
     if(to == "UTF-8"){
         return iconvLite.decode(str, from);
@@ -54,6 +77,12 @@ function convertIconvLite(str, to, from){
     }
 }
 
+/**
+ * Converts charset name if needed
+ *
+ * @param {String} name Character set
+ * @return {String} Character set name
+ */
 function checkEncoding(name){
     name = (name || "").toString().trim().
         replace(/^latin[\-_]?(\d+)$/i, "ISO-8859-$1").
