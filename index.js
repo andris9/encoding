@@ -1,10 +1,8 @@
-var Iconv, iconvLite;
+var Iconv, iconvLite = require("iconv-lite");;
 
 try{
     Iconv  = require("iconv").Iconv;
-}catch(E){
-    iconvLite = require("iconv-lite");
-}
+}catch(E){}
 
 // Expose to the world
 module.exports.convert = convert;
