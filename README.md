@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/andris9/encoding.png)](http://travis-ci.org/andris9/encoding)
 # Encoding
 
 **encoding** is a simple wrapper around [node-iconv](https://github.com/bnoordhuis/node-iconv) and [iconv-lite](https://github.com/ashtuchkin/iconv-lite/) to convert strings from one encoding to another. If node-iconv is not available for some reason,
