@@ -31,9 +31,21 @@ function convert(str, to, from, useLite){
         result = str;
     }else{
         if(Iconv && !useLite){
-            result = convertIconv(str, to, from);
+            try{
+                result = convertIconv(str, to, from);
+            }catch(E){
+                try{
+                    result = convertIconvLite(str, to, from);
+                }catch(E){
+                    result = str;
+                }
+            }
         }else{
-            result = convertIconvLite(str, to, from);
+            try{
+                result = convertIconvLite(str, to, from);
+            }catch(E){
+                result = str;
+            }
         }
     }
 
