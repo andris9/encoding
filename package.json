@@ -1,7 +1,7 @@
 {
   "name": "encoding",
   "version": "0.1.4",
-  "description": "Remove accents from international characters",
+  "description": "Convert encodings, uses iconv by default and fallbacks to iconv-lite if needed",
   "main": "index.js",
   "scripts": {
     "test": "nodeunit test.js"
