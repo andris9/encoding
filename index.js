@@ -1,4 +1,4 @@
-var Iconv, iconvLite = require("iconv-lite");;
+var Iconv, iconvLite = require("iconv-lite");
 
 try{
     Iconv  = require("iconv").Iconv;
@@ -21,7 +21,7 @@ function convert(str, to, from, useLite){
     to = checkEncoding(to || "UTF-8");
     str = str || "";
 
-    var result, iconv;
+    var result;
 
     if(from != "UTF-8" && typeof str == "string"){
         str = new Buffer(str, "binary");
