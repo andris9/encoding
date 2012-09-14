@@ -65,7 +65,7 @@ function convert(str, to, from, useLite){
  * @return {Buffer} Encoded string
  */
 function convertIconv(str, to, from){
-    var response;
+    var response, iconv;
     iconv = new Iconv(from, to + "//TRANSLIT//IGNORE");
     response = iconv.convert(str);
     return response.slice(0, response.length);
