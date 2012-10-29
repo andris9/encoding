@@ -25,5 +25,11 @@ exports["General tests"] = {
             expected = new Buffer([0xd5, 0xc4, 0xd6, 0xdc, 0xA6]);
         test.deepEqual(encoding.convert(input, "latin_15", "latin13", true), expected);
         test.done();
+    },
+    "From ISO-2022-JP to UTF-8": function(test){
+        var input = new Buffer("GyRCM1g5OzU7PVEwdzgmPSQ4IUYkMnFKczlwGyhC", "base64"),
+            expected = new Buffer("5a2m5qCh5oqA6KGT5ZOh56CU5L+u5qSc6KiO5Lya5aCx5ZGK", "base64");
+        test.deepEqual(encoding.convert(input, "utf-8", "ISO-2022-JP"), expected);
+        test.done();
     }
 }
