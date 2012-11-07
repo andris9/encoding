@@ -31,7 +31,19 @@ Example
 
     var result = encoding.convert("ÕÄÖÜ", "Latin_1");
     console.log(result); //<Buffer d5 c4 d6 dc>
-  
+
+## iconv support
+
+By default only iconv-lite is bundled. If you need node-iconv support, you need to add it
+as an additional dependency for your project:
+
+    ...,
+    "dependencies":{
+        "encoding": "*",
+        "iconv": "*"
+    },
+    ...
+
 ## License
 
 **MIT**
