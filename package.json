@@ -1,6 +1,6 @@
 {
   "name": "encoding",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Convert encodings, uses iconv by default and fallbacks to iconv-lite if needed",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
   "author": "Andris Reinman",
   "license": "MIT",
   "dependencies":{
-    "iconv-lite": "*"
+    "iconv-lite": "~0.2"
   },
   "devDependencies":{
     "nodeunit": "*"
