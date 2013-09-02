@@ -6,13 +6,13 @@
   "scripts": {
     "test": "nodeunit test.js"
   },
-  "repository": "git://github.com/andris9/encoding.git",
+  "repository": "https://github.com/andris9/encoding.git",
   "author": "Andris Reinman",
   "license": "MIT",
   "dependencies":{
-    "iconv-lite": "0.2.7"
+    "iconv-lite": "~0.2.11"
   },
   "devDependencies":{
-    "nodeunit": "*"
+    "nodeunit": "~0.8.1"
   }
 }
