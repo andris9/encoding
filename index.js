@@ -1,4 +1,6 @@
-var Iconv, iconvLite = require("iconv-lite");
+var Iconv, iconvLite = require("iconv-lite"),
+    jsencoding = require('./deps/encoding/encoding'),
+         jconv = require('jconv');
 
 try{
     Iconv  = require("iconv").Iconv;
@@ -30,21 +32,31 @@ function convert(str, to, from, useLite){
     if(from == to){
         result = str;
     }else{
-        if(Iconv && !useLite){
-            try{
-                result = convertIconv(str, to, from);
-            }catch(E){
+        if(jsencoding &&
+           jsencoding.encodingExists(to) &&
+           jsencoding.encodingExists(from) ) {
+            result = convertJsEncoding(str, to, from);
+        }else{
+            if(Iconv && !useLite){
+                try{
+                    result = convertIconv(str, to, from);
+                }catch(E){
+                    try{
+                        result = convertIconvLite(str, to, from);
+                    }catch(E){
+                        result = str;
+                    }
+                }
+            }else{
                 try{
                     result = convertIconvLite(str, to, from);
                 }catch(E){
-                    result = str;
+                    try{
+                        result = convertJconv(str, to, from);
+                    }catch(E){
+                        result = str;
+                    }
                 }
-            }
-        }else{
-            try{
-                result = convertIconvLite(str, to, from);
-            }catch(E){
-                result = str;
             }
         }
     }
@@ -87,6 +99,38 @@ function convertIconvLite(str, to, from){
     }else{
         return iconvLite.encode(iconvLite.decode(str, from), to);
     }
+}
+
+/**
+ * Convert encoding of astring with jsencoding, taken from node-imap
+ *
+ * @param {String|Buffer} str String to be converted
+ * @param {String} to Encoding to be converted to
+ * @param {String} [from="UTF-8"] Encoding to be converted from
+ * @return {Buffer} Encoded string
+ */
+function convertJsEncoding(str, to, from){
+    if(to == "UTF-8"){
+        return jsencoding.TextDecoder(from).decode(str);
+    }else if(from == "UTF-8"){
+        return jsencoding.TextDecoder(to).encode(str);
+    }else{
+        return jsencoding.TextDecoder(to).encode(
+                   jsencoding.TextDecoder(from).decode(str)
+               );
+    }
+}
+
+/**
+ * Convert encoding of astring with jconv (as a last try)
+ *
+ * @param {String|Buffer} str String to be converted
+ * @param {String} to Encoding to be converted to
+ * @param {String} [from="UTF-8"] Encoding to be converted from
+ * @return {Buffer} Encoded string
+ */
+function convertJconv(str, to, from){
+    return jconv.convert(str, from, to);
 }
 
 /**
