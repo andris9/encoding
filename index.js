@@ -117,18 +117,6 @@ function convertJsEncoding(str, to, from){
 }
 
 /**
- * Convert encoding of astring with jconv (as a last try)
- *
- * @param {String|Buffer} str String to be converted
- * @param {String} to Encoding to be converted to
- * @param {String} [from="UTF-8"] Encoding to be converted from
- * @return {Buffer} Encoded string
- */
-function convertJconv(str, to, from){
-    return jconv.convert(str, from, to);
-}
-
-/**
  * Converts charset name if needed
  *
  * @param {String} name Character set
