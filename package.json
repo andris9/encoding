@@ -11,7 +11,7 @@
   "license": "MIT",
   "dependencies":{
     "iconv-lite": "~0.2.11",
-    "jconv": "~0.1.5"
+    "jsencoding": "~0.1.0"
   },
   "devDependencies":{
     "nodeunit": "~0.8.1"

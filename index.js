@@ -1,6 +1,5 @@
 var Iconv, iconvLite = require("iconv-lite"),
-    jsencoding = require('./deps/encoding/encoding'),
-         jconv = require('jconv');
+    jsencoding = require('jsencoding');
 
 try{
     Iconv  = require("iconv").Iconv;
@@ -51,11 +50,7 @@ function convert(str, to, from, useLite){
                 try{
                     result = convertIconvLite(str, to, from);
                 }catch(E){
-                    try{
-                        result = convertJconv(str, to, from);
-                    }catch(E){
-                        result = str;
-                    }
+                    result = str;
                 }
             }
         }
