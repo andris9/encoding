@@ -1,8 +1,11 @@
-var Iconv, iconvLite = require("iconv-lite"),
-    jsencoding = require('jsencoding');
+var Iconv, iconvLite = require("iconv-lite");
 
 try{
     Iconv  = require("iconv").Iconv;
+}catch(E){}
+
+try{
+    jsencoding = require('jsencoding');
 }catch(E){}
 
 // Expose to the world
