@@ -1,4 +1,4 @@
-var Iconv, iconvLite = require("iconv-lite");
+var Iconv, jsencoding, iconvLite = require("iconv-lite");
 
 try{
     Iconv  = require("iconv").Iconv;
