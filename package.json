@@ -1,6 +1,6 @@
 {
   "name": "encoding",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "Convert encodings, uses iconv by default and fallbacks to iconv-lite if needed",
   "main": "lib/encoding.js",
   "scripts": {
