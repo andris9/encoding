@@ -14,5 +14,8 @@
   },
   "devDependencies": {
     "nodeunit": "~0.8.1"
+  },
+  "browser": {
+    "iconv": false
   }
 }
