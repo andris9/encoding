@@ -13,7 +13,6 @@
     "iconv-lite": "~0.4.13"
   },
   "devDependencies": {
-    "iconv": "~2.1.11",
     "nodeunit": "~0.9.1"
   }
 }
