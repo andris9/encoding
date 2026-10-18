@@ -4,15 +4,12 @@
     "description": "Convert encodings, uses iconv-lite",
     "main": "lib/encoding.js",
     "scripts": {
-        "test": "nodeunit test"
+        "test": "node --test test/test.js"
     },
     "repository": "https://github.com/andris9/encoding.git",
     "author": "Andris Reinman",
     "license": "MIT",
     "dependencies": {
         "iconv-lite": "^0.6.2"
-    },
-    "devDependencies": {
-        "nodeunit": "0.11.3"
     }
 }
