@@ -30,3 +30,6 @@ jobs:
             - run: npm run lint
             - run: npm run format:check
             - run: npm test
+            - name: Run tests with require(esm) disabled
+              if: matrix.node != '20.x'
+              run: npm run test:cjs
