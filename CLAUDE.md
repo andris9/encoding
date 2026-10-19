@@ -34,7 +34,8 @@ Tests live in `test/test.js` and use `node:test` with `node:assert/strict`.
 ## Critical constraints
 
 - **Nothing here may change what consumers get without a deliberate decision.** This package has millions of weekly downloads, mostly as a transitive dependency (node-fetch v2 optional peer, gettext-parser, which is how EmailEngine pulls it in, and many more), and a lot of those consumers run very old Node versions. The repo tooling (eslint, prettier, c8, the CI matrix on Node 20/22/24) is development-only.
-    - There is deliberately **no `engines` field** and no `files` list. Do not add one: either would change installs or the published tarball for every consumer.
+    - There is deliberately **no `engines` field**. Do not add one: it would change installs for every consumer.
+    - The `files` list publishes only `lib/` (plus README, LICENSE and package.json, which npm always includes). Keep every runtime file under `lib/`.
     - `lib/encoding.js` keeps its original style (`var`, escaped `-` in regexes). `eslint.config.js` turns `no-var` and `no-useless-escape` off for `lib/` so the shipped file is not rewritten for style.
     - CommonJS only. Do not convert to ESM and do not add dependencies.
     - `iconv-lite` is held on 0.6.x by `.ncurc.js` (`target: 'patch'`). Moving to 0.7 or 1.x changes every consumer's install and must be its own reviewed change.

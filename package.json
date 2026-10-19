@@ -3,6 +3,9 @@
     "version": "0.1.13",
     "description": "Convert encodings, uses iconv-lite",
     "main": "lib/encoding.js",
+    "files": [
+        "lib/"
+    ],
     "scripts": {
         "test": "node --test test/test.js",
         "test:coverage": "c8 npm test",
