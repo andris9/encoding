@@ -7,6 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```bash
 npm test                  # run the suite (node --test test/test.js)
 npm run test:coverage     # same, under c8
+npm run test:cjs          # the suite with require(esm) disabled (CommonJS guard)
 npm run lint              # eslint .
 npm run lint:fix          # eslint . --fix
 npm run format            # prettier --write .
@@ -31,13 +32,22 @@ The whole package is `lib/encoding.js`, a thin wrapper around [iconv-lite](https
 
 Tests live in `test/test.js` and use `node:test` with `node:assert/strict`.
 
+## Platform constraints
+
+EmailEngine pulls this package in through gettext-parser and ships as a standalone binary built with `@yao-pkg/pkg`. That binary snapshots a CommonJS module graph and cannot load ES modules, and EmailEngine supports Node 20 and later. Two rules follow:
+
+- **Node.js 20 is the supported minimum.** Tests and tooling must work on Node 20, 22 and 24 (the CI matrix), and the runtime code must never need more than Node 20. This is not stated in `package.json`: there is deliberately no `engines` field (see below), and in practice `lib/` stays far more conservative than Node 20 because older consumers still install it.
+- **Everything that reaches runtime must be genuinely CommonJS.** Do not convert to ESM. `require()` of this package and of `iconv-lite` must work with `--no-experimental-require-module`: Node 22+ (and 20.19) load ESM through `require()` by default, which would hide an ESM-only dependency until the pkg binary fails. A CJS wrapper around a dynamic `import()` does not count. Never upgrade to an ESM-only dependency; pin the last CommonJS line in `.ncurc.js` (`reject` or `target`) with a comment giving the reason, as is already done for `iconv-lite`.
+
+Check with `npm run test:cjs`, which runs the suite under `NODE_OPTIONS=--no-experimental-require-module`. CI runs it on Node 22.x and 24.x, the versions where require(esm) is on by default.
+
 ## Critical constraints
 
 - **Nothing here may change what consumers get without a deliberate decision.** This package has millions of weekly downloads, mostly as a transitive dependency (node-fetch v2 optional peer, gettext-parser, which is how EmailEngine pulls it in, and many more), and a lot of those consumers run very old Node versions. The repo tooling (eslint, prettier, c8, the CI matrix on Node 20/22/24) is development-only.
     - There is deliberately **no `engines` field**. Do not add one: it would change installs for every consumer.
     - The `files` list publishes only `lib/` (plus README, LICENSE and package.json, which npm always includes). Keep every runtime file under `lib/`.
     - `lib/encoding.js` keeps its original style (`var`, escaped `-` in regexes). `eslint.config.js` turns `no-var` and `no-useless-escape` off for `lib/` so the shipped file is not rewritten for style.
-    - CommonJS only. Do not convert to ESM and do not add dependencies.
+    - Do not add dependencies.
     - `iconv-lite` is held on 0.6.x by `.ncurc.js` (`target: 'patch'`). Moving to 0.7 or 1.x changes every consumer's install and must be its own reviewed change.
 - **Releases are manual.** There is no release-please and no release workflow: the version in `package.json` is bumped by hand and published with `npm publish` (last release 0.1.13, 2020-07-10, tagged `v0.1.13`). Do not bump the version or publish as part of other work.
 
