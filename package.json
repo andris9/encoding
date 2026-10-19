@@ -4,12 +4,26 @@
     "description": "Convert encodings, uses iconv-lite",
     "main": "lib/encoding.js",
     "scripts": {
-        "test": "node --test test/test.js"
+        "test": "node --test test/test.js",
+        "test:coverage": "c8 npm test",
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix",
+        "format": "prettier --write .",
+        "format:check": "prettier --check .",
+        "update": "rm -rf node_modules package-lock.json && ncu -u && npm install"
     },
     "repository": "https://github.com/andris9/encoding.git",
     "author": "Andris Reinman",
     "license": "MIT",
     "dependencies": {
         "iconv-lite": "^0.6.2"
+    },
+    "devDependencies": {
+        "@eslint/js": "10.0.1",
+        "c8": "12.0.0",
+        "eslint": "10.13.0",
+        "eslint-config-prettier": "10.1.8",
+        "globals": "17.13.0",
+        "prettier": "3.9.10"
     }
 }

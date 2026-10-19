@@ -1,0 +1,10 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Build and coverage output
+coverage/
+dist/
+
+# Auto-generated files
+CHANGELOG.md
