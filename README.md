@@ -25,9 +25,9 @@ Convert with encoding.convert()
 
 Where
 
--   **text** is either a Buffer or a String to be converted
--   **toCharset** is the characterset to convert the string
--   **fromCharset** (_optional_, defaults to UTF-8) is the source charset
+- **text** is either a Buffer or a String to be converted
+- **toCharset** is the characterset to convert the string
+- **fromCharset** (_optional_, defaults to UTF-8) is the source charset
 
 Output of the conversion is always a Buffer object.
 
