@@ -49,7 +49,7 @@ Check with `npm run test:cjs`, which runs the suite under `NODE_OPTIONS=--no-exp
     - `lib/encoding.js` keeps its original style (`var`, escaped `-` in regexes). `eslint.config.js` turns `no-var` and `no-useless-escape` off for `lib/` so the shipped file is not rewritten for style.
     - Do not add dependencies.
     - `iconv-lite` is held on 0.6.x by `.ncurc.js` (`target: 'patch'`). Moving to 0.7 or 1.x changes every consumer's install and must be its own reviewed change.
-- **Releases are manual.** There is no release-please and no release workflow: the version in `package.json` is bumped by hand and published with `npm publish` (last release 0.1.13, 2020-07-10, tagged `v0.1.13`). Do not bump the version or publish as part of other work.
+- **Releases go through release-please**, as in the other Postal Systems packages: `release-please-config.json` (manifest mode, plain `vX.Y.Z` tags) and `.github/workflows/release.yaml`, which publishes to npm through trusted publishing (OIDC, no token secret; the trusted publisher on npmjs.com names this repository and `release.yaml`, so the workflow file must keep that name). A `fix:` or `feat:` commit on master opens or updates the release PR, and merging it tags and publishes. Never bump the version in `package.json` or run `npm publish` by hand. Because every release reaches millions of installs, a runtime change still needs the deliberate decision described above before it is committed.
 
 ## Conventions
 
@@ -57,7 +57,7 @@ These mirror the conventions used across Postal Systems projects (see `../emaile
 
 **Git commits**
 
-- Use Conventional Commits. There is no release automation here, but keep the prefixes honest: `fix:` and `feat:` only for runtime changes, `chore:`/`build:`/`ci:`/`docs:`/`style:`/`test:` for everything else.
+- Use Conventional Commits, and keep the prefixes honest, since release-please turns `fix:` and `feat:` into a release: those only for runtime changes, `chore:`/`build:`/`ci:`/`docs:`/`style:`/`test:` for everything else.
 - Do **not** list Claude or any AI assistant as a co-author or co-contributor in commit messages or PR descriptions (no `Co-Authored-By` trailer).
 - Append `[skip ci]` to commits that do not change runtime behavior (docs, comments, formatting) to avoid spending CI minutes. Never add it to a `fix:` or `feat:` commit, and never quote the marker literally in a commit message body, since GitHub matches it anywhere in the message.
 

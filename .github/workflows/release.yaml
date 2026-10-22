@@ -1,0 +1,39 @@
+on:
+    push:
+        branches:
+            - master
+    # Manual run: publish the version currently on master (used when a release was cut
+    # but the publish step failed)
+    workflow_dispatch:
+
+permissions:
+    contents: write
+    pull-requests: write
+    id-token: write
+
+name: release
+jobs:
+    release-please:
+        runs-on: ubuntu-latest
+        steps:
+            # Configured through release-please-config.json (manifest mode): the release PR title
+            # pattern has no action input since v4, and include-component-in-tag is set false
+            # there to keep the plain vX.Y.Z tag format
+            - uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
+              id: release
+              if: ${{ github.event_name == 'push' }}
+            # The logic below handles the npm publication through npm trusted publishing
+            # (OIDC, no token secret): it runs when a new release is created, or on a
+            # manual dispatch.
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              if: ${{ steps.release.outputs.release_created || github.event_name == 'workflow_dispatch' }}
+            - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+              with:
+                  node-version: 24
+                  registry-url: 'https://registry.npmjs.org'
+                  package-manager-cache: false
+              if: ${{ steps.release.outputs.release_created || github.event_name == 'workflow_dispatch' }}
+            - run: npm ci
+              if: ${{ steps.release.outputs.release_created || github.event_name == 'workflow_dispatch' }}
+            - run: npm publish --provenance --access public
+              if: ${{ steps.release.outputs.release_created || github.event_name == 'workflow_dispatch' }}
