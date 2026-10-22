@@ -1,6 +1,6 @@
 {
     "name": "encoding",
-    "version": "0.1.13",
+    "version": "0.1.14",
     "description": "Convert encodings, uses iconv-lite",
     "main": "lib/encoding.js",
     "files": [
